@@ -9,7 +9,7 @@
 </head>
 <body>
   <header class="nav">
-    <a class="logo" href="#top">&gt;_ {{.Handle}}</a>
+    <a class="logo" href="#top"> {{.Handle}}</a>
     <nav>
       <a href="#about">about</a>
       <a href="#projects">projects</a>
@@ -21,7 +21,6 @@
   <main id="top">
     <section class="hero">
       <div class="hero-text">
-        <p class="prompt">$ whoami</p>
         <h1>{{.Name}}</h1>
         <p class="role"><span id="typed" data-text="{{.Role}}"></span><span class="cursor">▌</span></p>
         <p class="tagline">{{.Tagline}}</p>
