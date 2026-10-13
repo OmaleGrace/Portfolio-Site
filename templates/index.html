@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{.Name}} | {{.Role}}</title>
+  <meta name="description" content="{{.Tagline}}">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="logo" href="#top">&gt;_ {{.Handle}}</a>
+    <nav>
+      <a href="#about">about</a>
+      <a href="#projects">projects</a>
+      <a href="#skills">skills</a>
+      <a href="#contact">contact</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-text">
+        <p class="prompt">$ whoami</p>
+        <h1>{{.Name}}</h1>
+        <p class="role"><span id="typed" data-text="{{.Role}}"></span><span class="cursor">▌</span></p>
+        <p class="tagline">{{.Tagline}}</p>
+        <div class="actions">
+          <a class="btn primary" href="#projects">View projects</a>
+          <button class="btn" id="voice-btn" type="button" aria-pressed="false">▶ Hear my intro</button>
+        </div>
+      </div>
+      <div class="photo-wrap">
+        <img id="photo" src="/static/img/photo.jpg" alt="Photo of {{.Name}}" width="280" height="280"
+             onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'photo-fallback',textContent:'{{printf "%.1s" .Name}}'}))">
+      </div>
+    </section>
+
+    <section id="about">
+      <h2><span>01.</span> about</h2>
+      {{range .About}}<p>{{.}}</p>{{end}}
+      <p class="muted">📍 {{.Location}}</p>
+    </section>
+
+    <section id="projects">
+      <h2><span>02.</span> projects</h2>
+      <div class="cards" id="project-list">
+        {{range $i, $p := .Projects}}
+        <article class="card">
+          <div class="card-head">
+            <h3>{{$p.Name}}</h3>
+            <span class="badge {{if eq $p.Status "Live"}}live{{end}}">{{$p.Status}}</span>
+          </div>
+          <p>{{$p.Summary}}</p>
+          <ul class="tags">{{range $p.Stack}}<li>{{.}}</li>{{end}}</ul>
+          <div class="card-actions">
+            {{if $p.LiveURL}}<button class="btn small primary demo-btn" type="button" data-url="{{$p.LiveURL}}" data-name="{{$p.Name}}">Live demo</button>{{end}}
+            {{if $p.VideoURL}}<button class="btn small video-btn" type="button" data-video="{{$p.VideoURL}}" data-name="{{$p.Name}}">Watch demo</button>{{end}}
+            {{if $p.CodeURL}}<a class="btn small" href="{{$p.CodeURL}}" target="_blank" rel="noopener">Code</a>{{end}}
+            {{if and (not $p.LiveURL) (not $p.VideoURL)}}<span class="muted">Demo coming soon</span>{{end}}
+          </div>
+        </article>
+        {{end}}
+      </div>
+    </section>
+
+    <section id="skills">
+      <h2><span>03.</span> skills</h2>
+      <div class="skill-grid">
+        {{range .Skills}}
+        <div class="skill-group">
+          <h3>{{.Title}}</h3>
+          <ul class="tags">{{range .Skills}}<li>{{.}}</li>{{end}}</ul>
+        </div>
+        {{end}}
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2><span>04.</span> contact</h2>
+      <p>Want to work together or just say hi? My inbox is open.</p>
+      <div class="actions">
+        <a class="btn primary" href="mailto:{{.Email}}">Email me</a>
+        {{if .GitHub}}<a class="btn" href="{{.GitHub}}" target="_blank" rel="noopener">GitHub</a>{{end}}
+        {{if .LinkedIn}}<a class="btn" href="{{.LinkedIn}}" target="_blank" rel="noopener">LinkedIn</a>{{end}}
+      </div>
+    </section>
+  </main>
+
+  <footer>Built with Go · © {{.Name}}</footer>
+
+  <dialog id="demo-modal">
+    <div class="modal-bar">
+      <strong id="modal-title"></strong>
+      <span>
+        <a id="modal-open" class="btn small" target="_blank" rel="noopener" href="#">Open in new tab ↗</a>
+        <button class="btn small" id="modal-close" type="button">✕</button>
+      </span>
+    </div>
+    <div id="modal-body"></div>
+  </dialog>
+
+  <audio id="intro-audio" preload="none" src="/static/audio/intro.mp3"></audio>
+  <script id="intro-text" type="text/plain">{{.Intro}}</script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
