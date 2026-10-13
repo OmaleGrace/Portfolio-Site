@@ -91,3 +91,21 @@
   modal.addEventListener("click", (e) => { if (e.target === modal) close(); });
   modal.addEventListener("close", () => body.replaceChildren());
 })();
+(function () {
+  const modal = document.getElementById("demo-modal");
+  if (!modal || !modal.showModal) return;
+  const body = document.getElementById("modal-body");
+  const title = document.getElementById("modal-title");
+  const openLink = document.getElementById("modal-open");
+  document.querySelectorAll(".thumb").forEach((b) =>
+    b.addEventListener("click", () => {
+      const img = document.createElement("img");
+      img.src = b.dataset.src;
+      img.alt = b.dataset.caption;
+      title.textContent = b.dataset.caption;
+      openLink.href = b.dataset.src;
+      body.replaceChildren(img);
+      modal.showModal();
+    })
+  );
+})();

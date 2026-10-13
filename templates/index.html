@@ -51,6 +51,12 @@
             <span class="badge {{if eq $p.Status "Live"}}live{{end}}">{{$p.Status}}</span>
           </div>
           <p>{{$p.Summary}}</p>
+          {{if $p.Features}}<ul class="features">{{range $p.Features}}<li>{{.}}</li>{{end}}</ul>{{end}}
+          {{if $p.Images}}
+          <div class="gallery">
+            {{range $p.Images}}<button type="button" class="thumb" data-src="{{.Src}}" data-caption="{{.Caption}}" aria-label="View screenshot: {{.Caption}}"><img src="{{.Src}}" alt="{{.Caption}}" loading="lazy"></button>{{end}}
+          </div>
+          {{end}}
           <ul class="tags">{{range $p.Stack}}<li>{{.}}</li>{{end}}</ul>
           <div class="card-actions">
             {{if $p.LiveURL}}<button class="btn small primary demo-btn" type="button" data-url="{{$p.LiveURL}}" data-name="{{$p.Name}}">Live demo</button>{{end}}
